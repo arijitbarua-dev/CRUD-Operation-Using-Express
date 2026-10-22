@@ -25,7 +25,9 @@ export async function connectToMongoDB() {
     }
 }
 
-await connectToMongoDB();
+const connectedClient = await connectToMongoDB();
+const db = connectedClient.db("CRUD-DB");
+const users = db.collection("users");
 
 // MIDDLEWARE
 app.use(cors());
@@ -33,6 +35,12 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send("CRUD server is running")
+})
+
+app.get('/users', async (req, res) => {
+    const cursor = users.find({});
+    const allUsers = await cursor.toArray();
+    res.send(allUsers);
 })
 
 app.listen(port, () => {
