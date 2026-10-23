@@ -66,6 +66,22 @@ app.delete('/users/:id', async (req, res) => {
     res.send(result);
 })
 
+// update
+app.patch('/users/:id', async (req, res) => {
+    const id = req.params.id;
+    const updatedUser = req.body;
+    console.log("Updated user: ", updatedUser, "and ID: ", id);
+    const filter = {_id: new ObjectId(id)};
+    const options = { upsert: true };
+    const updateDoc = {
+        $set: {
+            name: updatedUser.name,
+            email: updatedUser.email
+        }
+    }
+    const result = await users.updateOne(filter, updateDoc, options);
+})
+
 app.listen(port, () => {
     console.log(`CRUD server is running on port: ${port}`)
 })
