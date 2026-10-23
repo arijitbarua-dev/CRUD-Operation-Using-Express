@@ -43,6 +43,13 @@ app.get('/users', async (req, res) => {
     res.send(allUsers);
 })
 
+app.post('/users', async (req, res) => {
+    const newUser = req.body;
+    console.log("Adding new user: ", newUser);
+    const result = await users.insertOne(newUser);
+    res.send(result)
+})
+
 app.listen(port, () => {
     console.log(`CRUD server is running on port: ${port}`)
 })
