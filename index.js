@@ -56,7 +56,14 @@ app.post('/users', async (req, res) => {
     const newUser = req.body;
     console.log("Adding new user: ", newUser);
     const result = await users.insertOne(newUser);
-    res.send(result)
+    res.send(result);
+})
+
+app.delete('/users/:id', async (req, res) => {
+    const id = req.params.id;
+    const query = {_id: new ObjectId(id)};
+    const result = await users.deleteOne(query);
+    res.send(result);
 })
 
 app.listen(port, () => {
